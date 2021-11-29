@@ -1,8 +1,7 @@
 package com.rikkei.tranning.rikkeitraining2
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         val m001Fragment = M001Fragment()
         fragmentTransaction.replace(R.id.fr_main, m001Fragment, M001Fragment.TAG)
-        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 

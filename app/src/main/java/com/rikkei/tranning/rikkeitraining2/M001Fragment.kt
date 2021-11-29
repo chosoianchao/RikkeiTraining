@@ -2,6 +2,7 @@ package com.rikkei.tranning.rikkeitraining2
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ class M001Fragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
+        Log.i(TAG, "onAttach: ")
     }
 
     override fun onCreateView(
@@ -27,6 +29,7 @@ class M001Fragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.i(TAG, "onCreateView: ")
         rootView = inflater.inflate(R.layout.m001fragment, container, false)
         mBinding = M001fragmentBinding.bind(rootView!!)
         initViews()
@@ -34,18 +37,17 @@ class M001Fragment : Fragment() {
     }
 
     private fun initViews() {
-        mediaPlayer = MediaPlayer.create(context, R.raw.song_1)
-        if (!(mediaPlayer == null || mediaPlayer?.isPlaying != true)) {
-            mediaPlayer?.reset()
+        if (mediaPlayer != null) {
+            mediaPlayer?.start()
+        }else{
+            mediaPlayer = MediaPlayer.create(mContext, R.raw.song_1)
+            mediaPlayer?.start()
         }
-        mediaPlayer?.start()
-        mBinding!!.tvNext.setOnClickListener {
-            Toast.makeText(context, "click", Toast.LENGTH_LONG).show()
-            if (!(mediaPlayer == null || mediaPlayer?.isPlaying != true)) {
-                mediaPlayer?.pause()
-            }
-            val mainActivity = (activity as MainActivity)
-            mainActivity.showFrg()
+        mBinding?.tvNext?.setOnClickListener {
+            Toast.makeText(mContext, "click", Toast.LENGTH_LONG).show()
+            mediaPlayer?.pause()
+            val act: MainActivity = (mContext as MainActivity)
+            act.showFrg()
         }
     }
 
@@ -76,7 +78,13 @@ class M001Fragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mediaPlayer?.stop()
         Log.i(TAG, "onDestroy: ")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i(TAG, "onDestroyView: ")
     }
 
     companion object {
